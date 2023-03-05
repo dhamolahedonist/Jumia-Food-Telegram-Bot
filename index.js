@@ -17,10 +17,11 @@ app.get("/", (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
+  console.log(req.body.message.text);
   let reply = "I cannot understand your request, Please try again";
   try {
     reply = webhookController.handle(req);
-    if (req.body.message.text === 0) {
+    if (req.body.message.text === "0") {
       reply = webhookController.cancel(req);
     }
   } catch (error) {

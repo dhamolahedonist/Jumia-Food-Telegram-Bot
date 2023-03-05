@@ -20,6 +20,9 @@ app.post("/webhook", (req, res) => {
   let reply = "I cannot understand your request, Please try again";
   try {
     reply = webhookController.handle(req);
+    if (req.body.message.text === 0) {
+      return (reply = webhookController.cancel(req));
+    }
   } catch (error) {
     console.log(error);
   }

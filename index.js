@@ -21,15 +21,20 @@ app.post("/webhook", (req, res) => {
   let reply = "I cannot understand your request, Please try again";
   try {
     reply = webhookController.handle(req);
+    if (!req.body.message.text.includes("0" || "1" || "99" || "98" || "97")) {
+      reply = webhookController.badRequest();
+    }
+
     if (req.body.message.text === "0") {
       reply = webhookController.cancelOrder();
     }
     if (req.body.message.text === "1") {
       reply = webhookController.placeOrder();
     }
-    if (req.body.message.text === "1") {
-      reply = webhookController.processOrder();
-    }
+
+    // if (req.body.message.text === "1") {
+    //   reply = webhookController.processOrder();
+    // }
   } catch (error) {
     console.log(error);
   }

@@ -6,6 +6,9 @@ const webhookController = {
   cancelOrder: () => {
     return `Your order has been canceled`;
   },
+  badRequest: () => {
+    return `invalid Response, try again`;
+  },
 
   placeOrder: () => {
     return `Please place your order, \n\n1 to buy Jollof Rice \n2 to buy Ofada Rice \n3 to buy Coconut Rice \n4 to buy Fried Rice`;

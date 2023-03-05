@@ -21,7 +21,7 @@ app.post("/webhook", (req, res) => {
   try {
     reply = webhookController.handle(req);
     if (req.body.message.text === 0) {
-      return (reply = webhookController.cancel(req));
+      reply = webhookController.cancel(req);
     }
   } catch (error) {
     console.log(error);

@@ -22,7 +22,13 @@ app.post("/webhook", (req, res) => {
   try {
     reply = webhookController.handle(req);
     if (req.body.message.text === "0") {
-      reply = webhookController.cancel();
+      reply = webhookController.cancelOrder();
+    }
+    if (req.body.message.text === "1") {
+      reply = webhookController.placeOrder();
+    }
+    if (req.body.message.text === "1") {
+      reply = webhookController.processOrder();
     }
   } catch (error) {
     console.log(error);

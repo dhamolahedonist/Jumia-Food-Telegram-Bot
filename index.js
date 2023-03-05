@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 app.post("/webhook", (req, res) => {
   console.log(req.body);
   bot.telegram.sendMessage(
-    req.body?.chat?.id,
+    req.body.message.chat.id,
     "Hello there! welcome to Jumia foods, webhook reached successfully"
   );
   res.json({

@@ -13,9 +13,6 @@ const webhookController = {
   placeOrder: () => {
     return `Please place your order, \n\n1 to buy Jollof Rice \n2 to buy Ofada Rice \n3 to buy Coconut Rice \n4 to buy Fried Rice`;
   },
-  processOrder: () => {
-    return `How many plates of Jollof Rice would you like to buy?`;
-  },
 
   // processOrder: () => {
   //    food.map((item) => {

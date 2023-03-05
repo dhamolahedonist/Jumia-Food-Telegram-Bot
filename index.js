@@ -6,6 +6,7 @@ app.use(express.static("static"));
 app.use(express.json());
 require("dotenv").config();
 const { Telegraf } = require("telegraf");
+const webhookController = require("./controllers/webhookController");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
@@ -16,25 +17,21 @@ app.get("/", (req, res) => {
 });
 
 app.post("/webhook", (req, res) => {
-  console.log(req.body);
-  bot.telegram.sendMessage(
-    req.body.message.chat.id,
-    "Hello there! welcome to Jumia foods, webhook reached successfully"
-  );
+  let reply = "I cannot understand your request, Please try again";
+  try {
+    reply = webhookController.handle(req);
+  } catch (error) {
+    console.log(error);
+  }
+
+  bot.telegram.sendMessage(req.body.message.chat.id, reply);
+
   res.json({
     status: true,
+    data: reply,
   });
 });
 
-bot.command("start", (ctx) => {
-  console.log(ctx.chat);
-  bot.telegram.sendMessage(
-    ctx.chat.id,
-    "Hello there! welcome to Jumia foods, Please note tht we are currently under maintenance"
-  );
-});
-
-// bot.launch();
 app.use(bot.webhookCallback("/webhook"));
 bot.telegram.setWebhook(`${process.env.BASE_URL}/webhook`);
 

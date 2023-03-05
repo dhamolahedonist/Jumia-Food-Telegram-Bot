@@ -21,7 +21,7 @@ bot.command("start", (ctx) => {
   console.log(ctx.from);
   bot.telegram.sendMessage(
     ctx.chat.id,
-    "Hello there! welcome to Jumia foods, Please note tht we are currently under maintenance"
+    "Hello there! welcome to Jumia foods, Please note tht we are currently under maintenance!!"
   );
 });
 

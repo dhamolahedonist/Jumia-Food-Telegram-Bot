@@ -9,6 +9,7 @@ const stepsController = {
   },
   selectOption: async (req) => {
     const text = req.body.message.text;
+
     if (text === "1") {
       await userController.updateStep(req, "placeOrder");
       return `Please select items you would like to buy \n1 to buy Jollof Rice\n2 to buy Fried Rice\n3 to buy Ofada Rice\n4 to buy Coconut Rice`;
@@ -26,7 +27,7 @@ const stepsController = {
       return `No order to cancel`;
     }
 
-    return `Invalid option`;
+    return `Invalid option, press 1 to start`;
   },
   placeOrder: async (req, user) => {
     const text = req.body.message.text;

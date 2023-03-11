@@ -7,6 +7,7 @@ app.use(express.json());
 require("dotenv").config();
 const { Telegraf } = require("telegraf");
 const webhookController = require("./controllers/webhookController");
+require("./db").connectToMongoDB(); // Connect to MongoDB
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
@@ -16,35 +17,17 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/webhook", (req, res) => {
+app.post("/webhook", async (req, res) => {
   console.log(req.body.message.text);
   let reply = "I cannot understand your request, Please try again";
   try {
-    reply = webhookController.handle(req);
-    if (!req.body.message.text.includes("0" || "1" || "99" || "98" || "97")) {
-      reply = webhookController.badRequest();
-    }
-
-    if (req.body.message.text === "0") {
-      reply = webhookController.cancelOrder();
-    }
-    if (req.body.message.text === "1") {
-      reply = webhookController.placeOrder();
-    }
-
-    // if (req.body.message.text === "1") {
-    //   reply = webhookController.processOrder();
-    // }
+    reply = await webhookController.handle(req);
   } catch (error) {
     console.log(error);
   }
 
   bot.telegram.sendMessage(req.body.message.chat.id, reply);
-
-  res.json({
-    status: true,
-    data: reply,
-  });
+  res.send(reply);
 });
 
 app.use(bot.webhookCallback("/webhook"));

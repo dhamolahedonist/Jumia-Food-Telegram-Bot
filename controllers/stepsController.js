@@ -2,17 +2,15 @@ const User = require("../models/userModel");
 const userController = require("./userContoller");
 const Order = require("../models/orderModel");
 const stepsController = {
-  welcome: async (req) => {
-    const text = req.body.message.text;
-    await userController.updateStep(req, "start");
-    if (text === "/start") {
-      return `Hi ${req.body.message.chat.first_name}, welcome back! \n\n1 to place an order \n99 to checkout order \n98 to see order history  \n0 to cancel order`;
-    }
-  },
   start: async (req) => {
     const text = req.body.message.text;
+    if (text === "/start") {
+      return `Please press 1`;
+    }
     await userController.updateStep(req, "selectOption");
-    return `Hi ${req.body.message.chat.first_name}, welcome back! \n\n1 to place an order \n99 to checkout order \n98 to see order history  \n0 to cancel order`;
+    if (text === "1") {
+      return `Hi ${req.body.message.chat.first_name}, welcome back! \n\n1 to place an order \n99 to checkout order \n98 to see order history  \n0 to cancel order`;
+    }
   },
   selectOption: async (req) => {
     const text = req.body.message.text;

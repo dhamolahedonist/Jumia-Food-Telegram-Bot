@@ -5,7 +5,7 @@ const stepsController = {
   start: async (req) => {
     await userController.updateStep(req, "selectOption");
 
-    return `Hi ${req.body.message.chat.first_name}, welcome back! \n\n1 to place an order  \n98 to see order history  \n0 to cancel order`;
+    return `Hi ${req.body.message.chat.first_name}, welcome back! \n\n1 to place an order \n99 to checkout order \n98 to see order history  \n0 to cancel order`;
   },
   selectOption: async (req) => {
     const text = req.body.message.text;
@@ -15,14 +15,18 @@ const stepsController = {
     }
     if (text === "98") {
       await userController.updateStep(req, "start");
-      return `this is your order history`;
+      return `No order has been placed yet`;
+    }
+    if (text === "99") {
+      await userController.updateStep(req, "start");
+      return `No order to checkout`;
     }
     if (text === "0") {
       await userController.updateStep(req, "start");
-      return `Thank you!!!`;
+      return `No order to cancel`;
     }
 
-    return `I have selected an option`;
+    return `Invalid option`;
   },
   placeOrder: async (req, user) => {
     const text = req.body.message.text;
@@ -69,7 +73,7 @@ const stepsController = {
     return `${order.quantity} plate of ${order.productName} Rice = ${price}\nDelivery Fee = ${deliveryFee}\nTotal: ${total} \nEnter
       \n99 to accept and confirm order or \n0 to cancel this request `;
   },
-  checkOutOrder: async (req) => {
+  checkOutOrder: async (req, user) => {
     const text = req.body.message.text;
     if (text === "99") {
       return `Order placed successfully. You will be contacted when our delivery agent is at your location.
@@ -84,6 +88,21 @@ const stepsController = {
 
       return `Order has been cancelled`;
     }
+    if (text === "98") {
+      await userController.updateStep(req, "start");
+      let order = await Order.find({ userId: user._id })
+        .limit(1)
+        .sort({ $natural: -1 });
+
+      order = order[0];
+
+      const price = order.quantity * 2500;
+      const deliveryFee = 2500;
+      const total = price + deliveryFee;
+
+      return `Your Order history: \n${order.productName} Rice X ${order.quantity} = ${price} \nDelivery Fee = ${deliveryFee} \nTotal =${total}`;
+    }
+    return `Invalid option`;
   },
 };
 

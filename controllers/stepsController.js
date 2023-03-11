@@ -73,7 +73,7 @@ const stepsController = {
     const text = req.body.message.text;
     if (text === "99") {
       return `Order placed successfully. You will be contacted when our delivery agent is at your location.
-      \n1 to place an order\n99 to checkout order\n98 to see order history\n0 to cancel order`;
+      \n1 to place an order\n98 to see order history\n0 to cancel order`;
     }
     if (text === "1") {
       await userController.updateStep(req, "start");

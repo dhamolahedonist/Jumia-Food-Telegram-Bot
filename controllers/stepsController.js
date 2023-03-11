@@ -33,7 +33,7 @@ const stepsController = {
       return `No order to cancel`;
     }
 
-    return `Invalid option`;
+    return `Please press 1`;
   },
   placeOrder: async (req, user) => {
     const text = req.body.message.text;

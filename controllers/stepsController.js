@@ -40,7 +40,6 @@ const stepsController = {
       4: "Coconut",
     };
     const product = items[text];
-    console.log(product);
 
     // Create an order for the custormer here
     await Order.create({

@@ -18,7 +18,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/webhook", async (req, res) => {
-  console.log(req.body.message.text);
   let reply = "I cannot understand your request, Please try again";
   try {
     reply = await webhookController.handle(req);

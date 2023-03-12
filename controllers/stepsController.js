@@ -104,7 +104,7 @@ const stepsController = {
       const deliveryFee = 2500;
       const total = price + deliveryFee;
 
-      return `Your Order history: \n${order.productName} Rice X ${order.quantity} = ${price} \nDelivery Fee = ${deliveryFee} \nTotal =${total}`;
+      return `Your Order history: \n${order.productName} Rice X ${order.quantity} = ${price} \nDelivery Fee = ${deliveryFee} \nTotal =${total} \npress 1 to return to the main menu`;
     }
     return `Invalid option`;
   },

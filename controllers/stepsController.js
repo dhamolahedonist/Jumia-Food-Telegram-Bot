@@ -20,15 +20,15 @@ const stepsController = {
     }
     if (text === "98") {
       await userController.updateStep(req, "start");
-      return `No order has been placed yet`;
+      return `No order has been placed yet, please press 1 to return to the main menu`;
     }
     if (text === "99") {
       await userController.updateStep(req, "start");
-      return `No order to checkout`;
+      return `No order to checkout, please press 1 to return to the main menu`;
     }
     if (text === "0") {
       await userController.updateStep(req, "start");
-      return `No order to cancel`;
+      return `No order to cancel, please press 1 to return to the main menu`;
     }
 
     return `Please press 1`;
@@ -90,7 +90,7 @@ const stepsController = {
     if (text === "0") {
       await userController.updateStep(req, "start");
 
-      return `Order has been cancelled`;
+      return `Order has been cancelled, please press 1 to return to the main menu`;
     }
     if (text === "98") {
       await userController.updateStep(req, "start");

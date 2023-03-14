@@ -2,20 +2,14 @@ const User = require("../models/userModel");
 const userController = require("./userContoller");
 const Order = require("../models/orderModel");
 const stepsController = {
-  welcome: async (req) => {
-    const text = req.body.message.text;
-    await userController.updateStep(req, "start");
-    if (text === "1") {
-      return `Hi ${req.body.message.chat.first_name}, welcome back! \n\n1 To place an order \n99 To checkout order \n98 To see order history \n97 To see current order  \n0 To cancel order`;
-    }
-    return `Please press 1`;
-  },
   start: async (req) => {
     const text = req.body.message.text;
-    await userController.updateStep(req, "selectOption");
+
     if (text === "1") {
+      await userController.updateStep(req, "selectOption");
       return `Hi ${req.body.message.chat.first_name}, welcome back! \n\n1 To place an order \n99 To checkout order \n98 To see order history \n97 To see current order  \n0 To cancel order`;
     }
+
     return `Please press 1`;
   },
   selectOption: async (req) => {
@@ -37,7 +31,8 @@ const stepsController = {
       return `No order to cancel, please press 1 to return to the main menu`;
     }
 
-    return `Please press 1`;
+    await userController.updateStep(req, "start");
+    return `invalid option, press 1 to go back to the main menu`;
   },
   placeOrder: async (req, user) => {
     const text = req.body.message.text;
@@ -124,7 +119,7 @@ const stepsController = {
 
       return `Your Order history: \n${order.productName} Rice X ${order.quantity} = ${price} \nDelivery Fee = ${deliveryFee} \nTotal =${total} \npress 1 to return to the main menu`;
     }
-    return `Please press 1`;
+    return `invalid option, please press 1 to return to the main menu`;
   },
 };
 

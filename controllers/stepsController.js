@@ -9,7 +9,7 @@ const stepsController = {
     }
     await userController.updateStep(req, "selectOption");
     if (text === "1") {
-      return `Hi ${req.body.message.chat.first_name}, welcome back! \n\n1 to place an order \n99 to checkout order \n98 to see order history  \n0 to cancel order`;
+      return `Hi ${req.body.message.chat.first_name}, welcome back! \n\n1 To place an order \n99 To checkout order \n98 To see order history \n97 To see current order  \n0 To cancel order`;
     }
   },
   selectOption: async (req) => {
@@ -18,7 +18,7 @@ const stepsController = {
       await userController.updateStep(req, "placeOrder");
       return `Please select items you would like to buy \n1 to buy Jollof Rice\n2 to buy Fried Rice\n3 to buy Ofada Rice\n4 to buy Coconut Rice`;
     }
-    if (text === "98") {
+    if (text === "97") {
       await userController.updateStep(req, "start");
       return `No order has been placed yet, please press 1 to return to the main menu`;
     }
@@ -81,7 +81,7 @@ const stepsController = {
     const text = req.body.message.text;
     if (text === "99") {
       return `Order placed successfully. You will be contacted when our delivery agent is at your location.
-      \n1 to place an order\n98 to see order history\n0 to cancel order`;
+      \n1 to place an order\n98 to see order history\n97 to see current order\n0 to cancel order`;
     }
     if (text === "1") {
       await userController.updateStep(req, "start");
@@ -92,11 +92,23 @@ const stepsController = {
 
       return `Order has been cancelled, please press 1 to return to the main menu`;
     }
-    if (text === "98") {
+    if (text === "97") {
       await userController.updateStep(req, "start");
       let order = await Order.find({ userId: user._id })
         .limit(1)
         .sort({ $natural: -1 });
+
+      order = order[0];
+
+      const price = order.quantity * 2500;
+      const deliveryFee = 2500;
+      const total = price + deliveryFee;
+
+      return `Your Order history: \n${order.productName} Rice X ${order.quantity} = ${price} \nDelivery Fee = ${deliveryFee} \nTotal =${total} \npress 1 to return to the main menu`;
+    }
+    if (text === "98") {
+      await userController.updateStep(req, "start");
+      let order = await Order.find({ userId: user._id });
 
       order = order[0];
 

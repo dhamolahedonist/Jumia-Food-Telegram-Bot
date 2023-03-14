@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
   },
   step: {
     type: String,
-    default: "start",
+    default: "welcome",
   },
 });
 
